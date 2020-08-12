@@ -34,7 +34,7 @@ class ArticleList extends React.Component {
             console.log(resp.data);
         } )
 
-        // fetch equivalent:
+        // fetch equivalent, would need to add in setState:
         // fetch('http://127.0.0.1:8000/api/')
         // .then(resp => resp.json())
         // .then(data => console.log(data))
@@ -44,7 +44,7 @@ class ArticleList extends React.Component {
 
     render(){
         return(
-            <Articles data={listData} />
+            <Articles data={this.state.articles} />
 
         )
     }
