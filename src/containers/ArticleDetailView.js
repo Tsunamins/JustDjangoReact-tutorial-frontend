@@ -1,6 +1,8 @@
 import React from 'react';
 import { Card } from 'antd';
-const axios = require('axios');
+import CustomForm from '../components/Form'
+
+import axios from 'axios';
 
 
 
@@ -27,17 +29,48 @@ class ArticleDetail extends React.Component {
         // fetch('http://127.0.0.1:8000/api/')
         // .then(resp => resp.json())
         // .then(data => console.log(data))
-
-
     }
+
+    handleDelete = event => {
+        event.preventDefault();
+        const articleID = this.props.match.params.articleID;
+        // axios.defaults.headers = {
+        //   "Content-Type": "application/json",
+        //   Authorization: `Token ${this.props.token}`
+        // };
+
+        axios.delete(`http://127.0.0.1:8000/api/${articleID}/delete/`)
+        .then(res => {
+          if (res.status === 204) {
+            this.props.history.push(`/`);
+
+            //fetch version:
+        //  fetch(`http://127.0.0.1:8000/api/${articleID}/delete/`, {
+        //      method: "DELETE"          
+        //  })
+         }
+         
+          
+        })
+      };
 
     render(){
         return(
-            
-            <Card title={this.state.article.title}>
-                <p>{this.state.article.content}</p>
+           <div> 
+                <Card title={this.state.article.title}>
+                    <p>{this.state.article.content}</p>
+                </Card>
+                <CustomForm {...this.props}
+                           
+                            requestType="put"
+                            articleID={this.props.match.params.articleID}
+                            btnText="Update"/>
 
-            </Card>
+                 <form onSubmit={this.handleDelete}>
+                    <label>Delete this article </label>
+                    <input type="submit" value="Delete"></input>
+                 </form>
+            </div>
         )
     }
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import Articles from '../components/Article'
+import CustomForm from '../components/Form'
 
 const axios = require('axios');
 
@@ -33,7 +34,12 @@ class ArticleList extends React.Component {
 
     render(){
         return(
-            <Articles data={this.state.articles} />
+            <div>
+                <Articles data={this.state.articles} />
+                <br />
+                <h2>Create an Article</h2>
+                <CustomForm requestType="post" articleID={null} btnText="Create"/>
+            </div>
 
         )
     }
