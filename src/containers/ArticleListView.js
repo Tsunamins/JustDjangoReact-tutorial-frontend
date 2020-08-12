@@ -1,6 +1,8 @@
 import React from 'react';
 import Articles from '../components/Article'
 
+const axios = require('axios');
+
 const listData = [];
 for (let i = 0; i < 23; i++) {
   listData.push({
