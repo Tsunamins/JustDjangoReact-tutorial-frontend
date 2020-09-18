@@ -4,15 +4,33 @@ import { Link } from 'react-router-dom';
 
 const { Header, Content, Footer } = Layout;
 
+// in the github code a class component is being used and thus uses this.props
+// in the video he uses this func component so may need to keep in mind for some other purpose later
+//i.e. for history or url :id references
 const CustomLayout = (props) => {
+  console.log(props)
     return (
   <Layout className="layout">
     <Header>
       <div className="logo" />
       <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-        <Menu.Item key="1">nav 1</Menu.Item>
-        <Menu.Item key="2">nav 2</Menu.Item>
-        <Menu.Item key="3">nav 3</Menu.Item>
+
+        {
+          props.isAuthenticated ?
+            <Menu.Item key="2">
+              Logout
+            </Menu.Item>
+            :
+            <Menu.Item key="2">
+              <Link to="/login">Login</Link>
+            </Menu.Item>
+
+        }
+        <Menu.Item key="1">
+          <Link to="/">Posts</Link>
+        </Menu.Item>
+        
+        
       </Menu>
     </Header>
     <Content style={{ padding: '0 50px' }}>
