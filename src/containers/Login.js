@@ -16,74 +16,58 @@ const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 
 class NormalLoginForm extends React.Component {
-    handleSubmit = (e) => {
-      e.preventDefault();
-      this.props.form.validateFields((err, values) => {
-        if (!err) {
-          this.props.onAuth(values.userName, values.password);
-          this.props.history.push('/');
-        }
-      });
-    }
+    // handleSubmit = (e) => {
+    //   e.preventDefault();
+    //   this.props.form.validateFields((err, values) => {
+    //     if (!err) {
+    //       this.props.onAuth(values.userName, values.password);
+    //       this.props.history.push('/');
+    //     }
+    //   });
+    // }
   
-    render() {
-      let errorMessage = null;
-      if (this.props.error) {
-          errorMessage = (
-              <p>{this.props.error.message}</p>
-          );
+    state = {
+        username: "",
+        password: ""
       }
+    
+      handleChange = event => {
+        this.setState({
+          [event.target.name]: event.target.value
+        });
+      }
+    
+      handleSubmit = event => {
+        event.preventDefault()
+        
   
-      //const { getFieldDecorator } = this.props.form;
+        this.props.onAuth(this.state.username, this.state.password)
+        this.props.history.push("/")
+        this.setState({
+              username: "",
+              password: ""
+        })
+      }
+      
+  
+      render() {
+       
       return (
-          <div>
-              {errorMessage}
-              {
-                  this.props.loading ?
+        <div className="SignUp">
+          <form onSubmit={this.handleSubmit}>
+              <input className="form" type="text" name="username"  placeholder="username" value={this.state.username} onChange={this.handleChange}></input>
+              <input className="form" type="password" name="password"  placeholder="password" value={this.state.password} onChange={this.handleChange}></input>
+              <input className="button" type="submit" value="Log In"></input>
   
-                  <Spin indicator={antIcon} />
-  
-                  :
-  
-                  <Form onSubmit={this.handleSubmit} className="login-form">
-  
-                      <Form.Item name='username' rules={[
-                                                    {
-                                                        required: true,
-                                                        message: 'Please input your username!',
-                                                    },
-                                                ]}>
-                    
-                        <Input prefix={<UserOutlined type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
-                 
-                      </Form.Item>
-  
-                      <Form.Item name="password" rules={[
-                                                        {
-                                                            required: true,
-                                                            message: 'Please input your password!',
-                                                        },
-                                                        ]}>
-                     
-                        <Input prefix={<LockOutlined type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
-            
-                      </Form.Item>
-  
-                      <Form.Item>
-                      <Button type="primary" htmlType="submit" style={{marginRight: '10px'}}>
-                          Login
-                      </Button>
-                      Or 
-                      <NavLink 
-                          style={{marginRight: '10px'}} 
-                          to='/signup/'> signup
-                      </NavLink>
-                      </Form.Item>
-                  </Form>
-              }
-        </div>
-      );
-    }
+          </form>
+            <div>Or <NavLink 
+            style={{marginRight: '10px'}} 
+            to='/signup/'> signup
+            </NavLink></div>
+        </div> 
+           
+      )
+  }
   }
 
 const mapStateToProps = (state) => {
