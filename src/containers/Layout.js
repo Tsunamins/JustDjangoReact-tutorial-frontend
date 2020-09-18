@@ -1,6 +1,8 @@
 import React from 'react'
 import { Layout, Menu, Breadcrumb } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import * as actions from '../store/actions/auth';
 
 const { Header, Content, Footer } = Layout;
 
@@ -17,7 +19,7 @@ const CustomLayout = (props) => {
 
         {
           props.isAuthenticated ?
-            <Menu.Item key="2">
+            <Menu.Item key="2" onClick={props.logout}>
               Logout
             </Menu.Item>
             :
@@ -39,7 +41,7 @@ const CustomLayout = (props) => {
         <Breadcrumb.Item><Link to="/" >List</Link></Breadcrumb.Item>
       </Breadcrumb>
       <div className="site-layout-content">
-          Content to go here so {props.children}
+          {props.children}
         </div>
     </Content>
     <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
@@ -47,4 +49,10 @@ const CustomLayout = (props) => {
     );
 }
 
-export default CustomLayout
+const mapDispatchToProps = dispatch => {
+  return {
+      logout: () => dispatch(actions.logout()) 
+  }
+}
+
+export default withRouter(connect(null, mapDispatchToProps)(CustomLayout));
